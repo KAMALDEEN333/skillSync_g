@@ -6,7 +6,7 @@ export interface Profile {
   skills: string[];
   interests: string[];
   goals: string[];
-  // Optionally allow for additional attributes in the future
+  // Optionally allows for additional attributes in the futures
   [key: string]: any;
 }
 
