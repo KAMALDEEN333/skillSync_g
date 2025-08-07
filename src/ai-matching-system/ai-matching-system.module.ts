@@ -5,6 +5,8 @@ import { DataCollectionService } from './services/data-collection.service';
 import { DataValidationService } from './services/data-validation.service';
 import { DataPreprocessingService } from './services/data-preprocessing.service';
 import { DataAnonymizationService } from './services/data-anonymization.service';
+import { ContentBasedFilteringService } from './services/content-based-filtering.service';
+import { MatchingService } from './services/matching.service';
 import { DataCollection, DataWorkflow } from './entities';
 
 @Module({
@@ -16,13 +18,17 @@ import { DataCollection, DataWorkflow } from './entities';
     DataCollectionService,
     DataValidationService,
     DataPreprocessingService,
-    DataAnonymizationService
+    DataAnonymizationService,
+    ContentBasedFilteringService,
+    MatchingService
   ],
   exports: [
     DataCollectionService,
     DataValidationService,
     DataPreprocessingService,
-    DataAnonymizationService
+    DataAnonymizationService,
+    ContentBasedFilteringService,
+    MatchingService
   ]
 })
 export class AiMatchingSystemModule {} 

@@ -21,6 +21,8 @@ import { DataCollectionService } from '../services/data-collection.service';
 import { DataValidationService } from '../services/data-validation.service';
 import { DataPreprocessingService } from '../services/data-preprocessing.service';
 import { DataAnonymizationService } from '../services/data-anonymization.service';
+import { MatchingService } from '../services/matching.service';
+import { Profile } from '../services/content-based-filtering.service';
 import { CreateDataCollectionDto, UpdateDataCollectionDto, DataCollectionQueryDto } from '../dtos/data-collection.dto';
 import { CreateDataProcessingDto, DataProcessingQueryDto } from '../dtos/data-processing.dto';
 import { DataCollection } from '../entities/data-collection.entity';
@@ -43,8 +45,24 @@ export class AiMatchingController {
     private readonly dataCollectionService: DataCollectionService,
     private readonly dataValidationService: DataValidationService,
     private readonly dataPreprocessingService: DataPreprocessingService,
-    private readonly dataAnonymizationService: DataAnonymizationService
+    private readonly dataAnonymizationService: DataAnonymizationService,
+    private readonly matchingService: MatchingService
   ) {}
+
+  /**
+   * Content-based filtering endpoint: Match mentee to mentors based on profile attributes
+   */
+  @Post('content-based-matching')
+  @Roles(UserRole.ADMIN, UserRole.MENTOR, UserRole.MENTEE)
+  @ApiOperation({ summary: 'Match mentee to mentors using content-based filtering' })
+  @ApiResponse({ status: 200, description: 'Mentors matched successfully' })
+  async contentBasedMatching(
+    @Body('mentee') mentee: Profile,
+    @Body('mentors') mentors: Profile[],
+    @Body('topN') topN?: number
+  ): Promise<Profile[]> {
+    return this.matchingService.matchMenteeToMentors(mentee, mentors, topN ?? 5);
+  }
 
   // Data Collection Endpoints
 
